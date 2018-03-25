@@ -3,7 +3,7 @@ import datetime
 from django.utils import timezone
 from django.test import TestCase
 
-from .models import Owner, Dog, Address
+from .models import Owner, Dog, Address, Event, Trial, TrialClass
 
 class OwnerTests(TestCase):
     def test_valid_name_characters(self):
@@ -58,7 +58,7 @@ class AddressTests(TestCase):
         self.assertIsInstance(self.address, Address)
 
     def test_string(self):
-        first_line = self.address.split('\n')[0]
+        first_line = self.address.address_lines.split('\n')[0]
         self.assertIn(first_line, str(self.address))
 
 class EventTests(TestCase):
@@ -103,5 +103,5 @@ class TrialTests(TestCase):
             trial_class=self.trial_class)
 
     def test_string(self):
-        self.assertIn(trial.start_time_description, str(trial))
+        self.assertIn(self.trial.start_time_description, str(self.trial))
 
