@@ -3,7 +3,7 @@ import datetime
 from django.utils import timezone
 from django.test import TestCase
 
-from .models import Owner, Dog
+from .models import Owner, Dog, Address
 
 class OwnerTests(TestCase):
     def test_valid_name_characters(self):
@@ -25,7 +25,7 @@ class DogTests(TestCase):
             email='john.doe@domain.com')
         owner.save()
         dog = Dog(
-            calll='Merlin',
+            call_name='Merlin',
             registered_name='Pi R Squared, Happy Hobbits',
             breed='border terrier',
             height_in_inches=10,
@@ -35,7 +35,7 @@ class DogTests(TestCase):
         self.assertIsInstance(dog, Dog)
 
 class AddressTests(TestCase):
-    def address_happy_path(self):
+    def test_address_happy_path(self):
         address = Address(
             address_lines='123 Fake St.\nBuilding A',
             city='Springfield',
