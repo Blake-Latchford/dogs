@@ -32,4 +32,4 @@ class TrialClass(models.Model):
 class Trial(models.Model):
     start_time_description = models.CharField(max_length=200)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, on_delete=models.CASCADE)
+    trial_class = models.ForeignKey(TrialClass, on_delete=models.CASCADE, null=True)
