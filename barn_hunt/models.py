@@ -23,8 +23,8 @@ class Address(models.Model):
 class Event(models.Model):
     title = models.CharField(max_length=100)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
-    start_time = models.DateField()
-    end_time = models.DateField()
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
 
 class TrialClass(models.Model):
     name = models.CharField(max_length=100)
