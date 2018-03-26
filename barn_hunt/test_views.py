@@ -19,7 +19,7 @@ class UpcomingEventsViewTests(TestCase):
         return self.client.get(reverse('barn_hunt:upcoming_events'))
 
     def test_upcoming_event(self):
-        Event.objects.create(
+        event = Event.objects.create(
             title='Upcoming Event',
             address=self.address,
             start_time=timezone.now() + datetime.timedelta(days=30),
@@ -27,7 +27,7 @@ class UpcomingEventsViewTests(TestCase):
 
         response = self.get_response()
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(len(response.context['event_list']), 1)
+        self.assertEqual(len(response.context['event_list']), 1, str(event.end_time))
 
     def test_past_event(self):
         Event.objects.create(
@@ -39,3 +39,10 @@ class UpcomingEventsViewTests(TestCase):
         response = self.get_response()
         self.assertEqual(response.status_code, 200)
         self.assertFalse(response.context['event_list'])
+
+    def test_google_maps_url(self):
+        view = UpcomingEventsView()
+        maps_url = view.address_to_google_url( self.address )
+        self.assertNotIn('\n', maps_url)
+        self.assertNotIn(' ', maps_url)
+
