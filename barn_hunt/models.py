@@ -27,7 +27,9 @@ class Address(models.Model):
     country = models.CharField(max_length=100, default='United States')
 
     def __str__(self):
-        return self.address_lines.replace('\n', ';')
+        result = self.address_lines + '\n'
+        result += self.city + ', ' + self.state + ' ' + self.zipcode
+        return result
 
 class Event(models.Model):
     title = models.CharField(max_length=100)

@@ -6,7 +6,7 @@
 	<div class="event" id="event_{{event.id}}">
 		<h1>{{ event.title|title }}</h1>
 		<div class="start_date">{{ event.start_time|date:'l, F n, o' }}</div>
-		<a href="{{ event.address_google_url }}">{{ event.address }}</a>
+		<a href="{{ event.address_google_url }}">{{ event.address|linebreaks }}</a>
 		<a href="" class="register_button">Register</a>
 	</div>
 {% endfor %}
