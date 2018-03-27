@@ -3,7 +3,7 @@ import datetime
 from django.utils import timezone
 from django.test import TestCase
 
-from .models import Owner, Dog, Address, Event, Trial, TrialClass
+from .models import Owner, Dog, Address, Event, Trial, TrialClass, CompetitionClass
 
 class OwnerTests(TestCase):
     def test_valid_name_characters(self):
@@ -80,28 +80,30 @@ class EventTests(TestCase):
 
 class TrialTests(TestCase):
     def setUp(self):
-        self.address = Address(
+        self.address = Address.objects.create(
             address_lines='123 Fake St.\nBuilding A',
             city='Springfield',
             state='Missouri',
             zipcode='65800')
-        self.address.save()
 
-        self.event = Event(
+        self.event = Event.objects.create(
             title='Title',
             address=self.address,
             start_time=timezone.now(),
             end_time=timezone.now() )
-        self.event.save()
 
-        self.trial_class = TrialClass(name="Novice")
-        self.trial_class.save()
+        self.competition_class = CompetitionClass.objects.create(
+            name="Novice")
 
-        self.trial = Trial(
-            start_time_description='Early Morning',
-            event=self.event,
-            trial_class=self.trial_class)
+        self.trial = Trial.objects.create(
+            time_description='Early Morning',
+            event=self.event)
+
+        self.trial_class = TrialClass.objects.create(
+            competition_class=self.competition_class,
+            trial=self.trial,
+            price=0.0)
 
     def test_string(self):
-        self.assertIn(self.trial.start_time_description, str(self.trial))
+        self.assertIn(self.trial.time_description, str(self.trial))
 

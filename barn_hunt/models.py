@@ -40,21 +40,25 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
-class TrialClass(models.Model):
+class CompetitionClass(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
 class Trial(models.Model):
-    start_time_description = models.CharField(max_length=200)
+    time_description = models.CharField(max_length=200)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    trial_class = models.ForeignKey(TrialClass, on_delete=models.CASCADE, null=True)
+    trial_classes = models.ManyToManyField(CompetitionClass, through='TrialClass')
 
     def __str__(self):
         ret = str(self.event) + ':'
-        if self.trial_class:
-            ret += str(self.trial_class)
-        ret += ' - ' + self.start_time_description
+        ret += str(','.join((str(x) for x in self.trial_classes.all())))
+        ret += ' - ' + self.time_description
 
         return ret
+
+class TrialClass(models.Model):
+    competition_class = models.ForeignKey(CompetitionClass, on_delete=models.CASCADE)
+    trial = models.ForeignKey(Trial, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=3, decimal_places=2)
