@@ -4,17 +4,19 @@ from django.views import generic
 
 from .models import Event
 
+
 class UpcomingEventsView(generic.ListView):
     model = Event
 
     def address_to_google_url(self, address):
-        address_pattern =  address.address_lines.replace('\n', ' ') + '+'
+        address_pattern = address.address_lines.replace('\n', ' ') + '+'
         address_pattern += address.city + '+'
         address_pattern += address.state + '+'
         address_pattern += address.zipcode + '+'
         address_pattern += address.country
 
-        return "http://maps.google.com?daddr=" + escape_uri_path(address_pattern)
+        return "http://maps.google.com?daddr=" + \
+            escape_uri_path(address_pattern)
 
     def get_queryset(self):
         pending_events = Event.objects.filter(end_time__gte=timezone.now())
@@ -29,4 +31,3 @@ class UpcomingEventsView(generic.ListView):
                 event.address)
 
         return context
-

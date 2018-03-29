@@ -5,6 +5,7 @@ from django.test import TestCase
 
 from .models import Owner, Dog, Address, Event, Trial, TrialClass, CompetitionClass
 
+
 class OwnerTests(TestCase):
     def test_valid_name_characters(self):
         valid_name_strings = (
@@ -22,7 +23,7 @@ class OwnerTests(TestCase):
         owner = Owner(
             full_name='John Doe',
             email='john.doe@domain.com')
-        self.assertIn( owner.full_name, str(owner) )
+        self.assertIn(owner.full_name, str(owner))
 
 
 class DogTests(TestCase):
@@ -44,7 +45,7 @@ class DogTests(TestCase):
 
     def test_string(self):
         self.assertIn(self.dog.call_name, str(self.dog))
-        
+
 
 class AddressTests(TestCase):
     def setUp(self):
@@ -61,6 +62,7 @@ class AddressTests(TestCase):
         first_line = self.address.address_lines.split('\n')[0]
         self.assertIn(first_line, str(self.address))
 
+
 class EventTests(TestCase):
     def setUp(self):
         self.address = Address(
@@ -75,8 +77,9 @@ class EventTests(TestCase):
             title='Title',
             address=self.address,
             start_time=timezone.now(),
-            end_time=timezone.now() )
+            end_time=timezone.now())
         self.assertIn(event.title, str(event))
+
 
 class TrialTests(TestCase):
     def setUp(self):
@@ -90,7 +93,7 @@ class TrialTests(TestCase):
             title='Title',
             address=self.address,
             start_time=timezone.now(),
-            end_time=timezone.now() )
+            end_time=timezone.now())
 
         self.competition_class = CompetitionClass.objects.create(
             name="Novice")
@@ -110,4 +113,3 @@ class TrialTests(TestCase):
         trial_class_str = str(self.trial_class)
         self.assertIn(self.event.title, trial_class_str)
         self.assertIn(self.trial.time_description, trial_class_str)
-

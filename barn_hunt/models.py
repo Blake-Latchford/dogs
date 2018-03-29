@@ -8,6 +8,7 @@ class Owner(models.Model):
     def __str__(self):
         return '"' + self.full_name + '"<' + self.email + '>'
 
+
 class Dog(models.Model):
     call_name = models.CharField(max_length=100)
     registered_name = models.CharField(max_length=100)
@@ -18,6 +19,7 @@ class Dog(models.Model):
 
     def __str__(self):
         return self.call_name + ' (' + self.registered_name + ')'
+
 
 class Address(models.Model):
     address_lines = models.CharField(max_length=200)
@@ -31,6 +33,7 @@ class Address(models.Model):
         result += self.city + ', ' + self.state + ' ' + self.zipcode
         return result
 
+
 class Event(models.Model):
     title = models.CharField(max_length=100)
     address = models.ForeignKey(Address, on_delete=models.CASCADE)
@@ -40,16 +43,19 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
+
 class CompetitionClass(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
 
+
 class Trial(models.Model):
     time_description = models.CharField(max_length=200)
     event = models.ForeignKey(Event, on_delete=models.CASCADE)
-    trial_classes = models.ManyToManyField(CompetitionClass, through='TrialClass')
+    trial_classes = models.ManyToManyField(
+        CompetitionClass, through='TrialClass')
 
     def __str__(self):
         ret = str(self.event) + ':'
@@ -58,8 +64,10 @@ class Trial(models.Model):
 
         return ret
 
+
 class TrialClass(models.Model):
-    competition_class = models.ForeignKey(CompetitionClass, on_delete=models.CASCADE)
+    competition_class = models.ForeignKey(
+        CompetitionClass, on_delete=models.CASCADE)
     trial = models.ForeignKey(Trial, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=3, decimal_places=2)
 
