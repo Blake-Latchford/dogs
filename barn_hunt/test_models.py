@@ -107,3 +107,7 @@ class TrialTests(TestCase):
     def test_string(self):
         self.assertIn(self.trial.time_description, str(self.trial))
 
+        trial_class_str = str(self.trial_class)
+        self.assertIn(self.event.title, trial_class_str)
+        self.assertIn(self.trial.time_description, trial_class_str)
+

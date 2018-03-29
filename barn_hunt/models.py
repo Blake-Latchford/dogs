@@ -62,3 +62,8 @@ class TrialClass(models.Model):
     competition_class = models.ForeignKey(CompetitionClass, on_delete=models.CASCADE)
     trial = models.ForeignKey(Trial, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=3, decimal_places=2)
+
+    def __str__(self):
+        ret = str(self.trial) + ':'
+        ret += '($' + str(self.price) + ')'
+        return ret
