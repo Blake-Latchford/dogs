@@ -70,8 +70,23 @@ class TrialClass(models.Model):
         CompetitionClass, on_delete=models.CASCADE)
     trial = models.ForeignKey(Trial, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=3, decimal_places=2)
+    registrations = models.ManyToManyField(
+        Dog, through='Registration')
 
     def __str__(self):
         ret = str(self.trial) + ':'
         ret += '($' + str(self.price) + ')'
         return ret
+
+
+class Registration(models.Model):
+    dog = models.ForeignKey(Dog, on_delete=models.CASCADE)
+    trial_class = models.ForeignKey(
+        TrialClass, on_delete=models.CASCADE)
+    paid = models.BooleanField(default=False)
+
+    def __str__(self):
+        result = self.trial_class.trial.event.title
+        result += '(' + self.trial_class.trial.time_description + '):'
+        result += self.dog.registered_name
+        return result
