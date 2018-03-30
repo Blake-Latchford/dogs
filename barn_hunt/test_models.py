@@ -3,7 +3,7 @@ import datetime
 from django.utils import timezone
 from django.test import TestCase
 
-from .models import Owner, Dog, Address, Event, Trial, TrialClass, CompetitionClass
+from . import models
 
 
 class OwnerTests(TestCase):
@@ -13,14 +13,14 @@ class OwnerTests(TestCase):
         )
         for name in valid_name_strings:
             with self.subTest(name=name):
-                owner = Owner(
+                owner = models.Owner(
                     full_name=name,
                     email='john.doe@domain.com')
                 owner.save()
-                self.assertIsInstance(owner, Owner)
+                self.assertIsInstance(owner, models.Owner)
 
     def test_string(self):
-        owner = Owner(
+        owner = models.Owner(
             full_name='John Doe',
             email='john.doe@domain.com')
         self.assertIn(owner.full_name, str(owner))
@@ -28,11 +28,11 @@ class OwnerTests(TestCase):
 
 class DogTests(TestCase):
     def setUp(self):
-        self.owner = Owner(
+        self.owner = models.Owner(
             full_name='John Doe',
             email='john.doe@domain.com')
         self.owner.save()
-        self.dog = Dog(
+        self.dog = models.Dog(
             call_name='Merlin',
             registered_name='Pi R Squared, Happy Hobbits',
             breed='border terrier',
@@ -41,7 +41,7 @@ class DogTests(TestCase):
             owner=self.owner)
 
     def test_happy_path(self):
-        self.assertIsInstance(self.dog, Dog)
+        self.assertIsInstance(self.dog, models.Dog)
 
     def test_string(self):
         self.assertIn(self.dog.call_name, str(self.dog))
@@ -49,14 +49,14 @@ class DogTests(TestCase):
 
 class AddressTests(TestCase):
     def setUp(self):
-        self.address = Address(
+        self.address = models.Address(
             address_lines='123 Fake St.\nBuilding A',
             city='Springfield',
             state='Missouri',
             zipcode='65800')
 
     def test_address_happy_path(self):
-        self.assertIsInstance(self.address, Address)
+        self.assertIsInstance(self.address, models.Address)
 
     def test_string(self):
         first_line = self.address.address_lines.split('\n')[0]
@@ -65,7 +65,7 @@ class AddressTests(TestCase):
 
 class EventTests(TestCase):
     def setUp(self):
-        self.address = Address(
+        self.address = models.Address(
             address_lines='123 Fake St.\nBuilding A',
             city='Springfield',
             state='Missouri',
@@ -73,7 +73,7 @@ class EventTests(TestCase):
         self.address.save()
 
     def test_string(self):
-        event = Event(
+        event = models.Event(
             title='Title',
             address=self.address,
             start_time=timezone.now(),
@@ -83,26 +83,26 @@ class EventTests(TestCase):
 
 class TrialTests(TestCase):
     def setUp(self):
-        self.address = Address.objects.create(
+        self.address = models.Address.objects.create(
             address_lines='123 Fake St.\nBuilding A',
             city='Springfield',
             state='Missouri',
             zipcode='65800')
 
-        self.event = Event.objects.create(
+        self.event = models.Event.objects.create(
             title='Title',
             address=self.address,
             start_time=timezone.now(),
             end_time=timezone.now())
 
-        self.competition_class = CompetitionClass.objects.create(
+        self.competition_class = models.CompetitionClass.objects.create(
             name="Novice")
 
-        self.trial = Trial.objects.create(
+        self.trial = models.Trial.objects.create(
             time_description='Early Morning',
             event=self.event)
 
-        self.trial_class = TrialClass.objects.create(
+        self.trial_class = models.TrialClass.objects.create(
             competition_class=self.competition_class,
             trial=self.trial,
             price=0.0)
