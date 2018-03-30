@@ -7,6 +7,6 @@
 		<h1>{{ event.title|title }}</h1>
 		<div class="start_date">{{ event.start_time|date:'l, F n, o' }}</div>
 		<a href="{{ event.address_google_url }}">{{ event.address|linebreaks }}</a>
-		<a href="" class="register_button">Register</a>
+		<a href="{% url 'barn_hunt:register_dog' event.id %}" class="register_button">Register</a>
 	</div>
 {% endfor %}

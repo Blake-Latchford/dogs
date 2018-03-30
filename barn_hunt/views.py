@@ -1,8 +1,10 @@
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.utils.encoding import escape_uri_path
 from django.views import generic
 
 from .models import Event
+from .forms import DogRegistrationForm
 
 
 class UpcomingEventsView(generic.ListView):
@@ -31,3 +33,10 @@ class UpcomingEventsView(generic.ListView):
                 event.address)
 
         return context
+
+class DogRegistrationView(generic.edit.FormView):
+    form_class = DogRegistrationForm
+    template_name = 'barn_hunt/dog_registration.html'
+
+    def get_success_url(self):
+        return reverse_lazy('barn_hunt:upcoming_events')
