@@ -74,6 +74,8 @@ class DogRegistrationTests(TestCase):
 
     def test_valid_bound_form(self):
         response = self.client.post(self.get_url(), {
+            'owner_full_name': 'John Doe',
+            'owner_email': 'john.doe@domain.com',
             'call_name': 'Merlin',
             'registered_name': 'Happy Hobbits, Pi R Squared',
             'breed': 'Border Terrier',
@@ -85,6 +87,8 @@ class DogRegistrationTests(TestCase):
 
     def test_invalid_height(self):
         response = self.client.post(self.get_url(), {
+            'owner_full_name': 'John Doe',
+            'owner_email': 'john.doe@domain.com',
             'call_name': 'Merlin',
             'registered_name': 'Happy Hobbits, Pi R Squared',
             'breed': 'Border Terrier',

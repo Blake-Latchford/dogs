@@ -1,8 +1,11 @@
 from django import forms
 
-from .models import Dog
+from .models import Dog, Owner
 
 class DogRegistrationForm(forms.ModelForm):
+    owner_full_name = forms.CharField(max_length=200)
+    owner_email = forms.EmailField()
+
     class Meta:
         model = Dog
         fields = [

@@ -10,6 +10,8 @@ class DogRegistrationFormTests(TestCase):
 
     def test_basic_valid_form(self):
         form = forms.DogRegistrationForm({
+            'owner_full_name': 'John Doe',
+            'owner_email': 'john.doe@domain.com',
             'call_name': 'Meriln',
             'registered_name': 'Pi R Squared',
             'breed': 'Border Terrier',
@@ -17,10 +19,12 @@ class DogRegistrationFormTests(TestCase):
             'bitch_in_season': False,
         })
         self.assertTrue(form.is_bound)
-        self.assertTrue(form.is_valid())
+        self.assertTrue(form.is_valid(), form.errors)
 
     def test_incomplete_form(self):
         form = forms.DogRegistrationForm({
+            'owner_full_name': 'John Doe',
+            'owner_email': 'john.doe@domain.com',
             'call_name': 'Meriln',
             'registered_name': 'Pi R Squared',
             'breed': 'Border Terrier',
