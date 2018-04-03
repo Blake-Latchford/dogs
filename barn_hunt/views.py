@@ -34,7 +34,7 @@ class UpcomingEventsView(generic.ListView):
 
         return context
 
-class DogRegistrationView(generic.edit.FormView):
+class DogRegistrationView(generic.edit.CreateView):
     form_class = DogRegistrationForm
     template_name = 'barn_hunt/dog_registration.html'
 
